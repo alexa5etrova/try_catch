@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Input validation</title>
+	<style>
+		body {
+			background-color: darkgrey;
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+		}
+
+		form {
+			width: 350px;
+			padding: 50px;
+			margin: 0 auto;
+			margin-top: 300px;
+			background-color: white;
+			box-shadow: 10px 0px 50px 0px rgba(0, 0, 0, 0.50);
+			border-radius: 10px;
+
+		}
+
+		button {
+			width: 50px;
+			background-color: burlywood;
+			border-radius: 5px;
+		}
+
+		#errorField {
+			color: red;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<form onsubmit="formHandler(event)" action="#">
+			<label for="numberField">Введите число от 5 до 10:</label>
+			<input type="text" id="numberField" name="numberField">
+			<button type="submit">Ok</button>
+			<p id="errorField"></p>
+		</form>
+	</main>
+	<script>
+		// Напишите с помощью изученной конструкции try/catch простую валидацию инпута для числового значения.
+		// Если поле пустое, текстовое содержимое не является числом, или значение меньше 5 или больше 10 — пробросьте
+		// ошибку с соответствующим текстом. Чтобы пользователю было понятен текст ошибки, выводите текст ошибки в абзац под инпутом.
+		"use strict";
+
+		const formHandler = (event) => {
+			event.preventDefault();
+			let enteredNumber = document.getElementById('numberField').value.trim();
+			let errorField = document.getElementById('errorField');
+			console.log(enteredNumber);
+			try {
+				if (!enteredNumber.length > 0) {
+					throw new Error("Вы не ввели число")
+				} else if (isNaN(parseInt(enteredNumber))) {
+					throw new Error("Вы ввели строку, а не число")
+				} else if (parseInt(enteredNumber) < 5) {
+					throw new Error("Введите число не меньше 5")
+				} else if (parseInt(enteredNumber) > 10) {
+					throw new Error("Введите число не больше 10")
+				} else {
+					alert("Введеное число: " + enteredNumber);
+				}
+			} catch (e) {
+				console.log(e);
+				errorField.innerHTML = e.message;
+			} finally {
+				document.getElementById('numberField').value = '';
+			}
+
+		}
+
+	</script>
+
+</body>
+
+</html>
